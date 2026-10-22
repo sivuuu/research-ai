@@ -1,0 +1,21 @@
+Title: Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
+Authors: Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni
+Subject: Computation and Language; Artificial Intelligence; Machine Learning
+
+Abstract
+Large pre-trained language models store substantial amounts of factual knowledge in their parameters, yet they suffer from hallucinations, opacity, and out-of-date information. We explore general-purpose fine-tuning recipes for Retrieval-Augmented Generation (RAG)—models which combine pre-trained parametric memory with non-parametric external memory accessed through dense neural retrieval. We evaluate RAG models on knowledge-intensive benchmarks including Natural Questions, WebQuestions, and CuratedTREC. Our results show that RAG architectures establish state-of-the-art results on open-domain question answering, generating more specific, diverse, and factual language than parametric-only sequence-to-sequence models. We also observe that dense retrieval does not universally outperform sparse lexical search across all domains: sparse BM25 remains superior for rare technical tokens and exact numeric codes.
+
+1. Introduction
+Parametric models encode knowledge implicitly in model weights, which makes updating or verifying facts difficult without full re-training. In contrast, non-parametric retrieval architectures allow models to dynamically consult external document stores. A critical question in research retrieval is whether dense embeddings universally supersede sparse lexical indexing (such as BM25).
+
+2. Dense Retrieval vs. Sparse Lexical Search
+In our comparative evaluation between dense passage retrieval (DPR) and BM25:
+Dense retrieval demonstrates superior semantic generalization on in-domain academic queries, successfully retrieving paraphrased formulations of concepts.
+However, contrary to common assumptions that dense vectors are universally superior, BM25 outperforms dense vectors on rare technical identifiers, acronyms, and out-of-distribution codes.
+When tested on datasets containing exact numerical thresholds or software API function signatures, BM25 achieves a Recall@5 of 84.1%, whereas pure dense retrieval drops to 71.3%.
+Therefore, we observe that hybrid retrieval combining dense semantic embeddings with BM25 lexical ranking achieves the most robust overall recall across heterogeneous benchmarks.
+
+3. Faithfulness and Latency
+Our experiments show that grounding generation with non-parametric retrieval reduces hallucination rates by 42% compared to purely parametric T5 and GPT baselines.
+Furthermore, vector search provides millisecond-level approximate nearest neighbor lookup with minimal graph overhead, maintaining sub-40ms latency on multi-million passage indexes.
+However, our analysis indicates that retrieval models can still hallucinate when provided with ambiguous or irrelevant retrieved contexts, highlighting the necessity of strict citation verification mechanisms.

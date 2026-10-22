@@ -1,0 +1,99 @@
+{
+  "benchmark_name": "ResearchGraph-Bench-v1",
+  "version": "1.0.0",
+  "description": "Standardized human-reviewed evaluation dataset for evidence grounding, cross-document contradiction detection, and claim provenance.",
+  "metadata": {
+    "total_queries": 6,
+    "domains": ["GraphRAG", "Dense Retrieval", "LLM Hallucination", "Knowledge Grounding"],
+    "created_by": "ResearchGraph Benchmark Working Group",
+    "annotation_method": "Dual-annotator consensus review of empirical findings and explicit contradictions"
+  },
+  "test_cases": [
+    {
+      "id": "eval_rag_vs_graphrag",
+      "question": "How does GraphRAG improve over standard baseline RAG on global sensemaking questions?",
+      "expected_document_titles": ["GraphRAG: Unlocking LLM Discovery on Complex Information Networks"],
+      "expected_keywords": ["GraphRAG", "global sensemaking", "community summarization", "comprehensiveness", "diversity"],
+      "labeled_claims": [
+        "GraphRAG combines knowledge graph construction with hierarchical summarization to answer global questions across entire corpora.",
+        "GraphRAG demonstrates substantial improvements in comprehensiveness and diversity compared to naive baseline RAG on complex sensemaking tasks.",
+        "Standard vector RAG struggles with global questions that require synthesizing connections across multiple disparate documents."
+      ],
+      "labeled_contradiction_pairs": [
+        ["naive vector retrieval is sufficient for global corpus understanding", "standard vector RAG fails on global questions requiring cross-document synthesis"]
+      ],
+      "expected_answer_faithfulness_min": 0.85
+    },
+    {
+      "id": "eval_hallucination_mitigation",
+      "question": "What mechanisms are most effective for mitigating hallucinations in retrieval-augmented LLM architectures?",
+      "expected_document_titles": ["Hallucination Mitigation in Large Language Models: A Comprehensive Survey"],
+      "expected_keywords": ["hallucination mitigation", "retrieval-augmented generation", "grounding", "citation validation", "faithful"],
+      "labeled_claims": [
+        "External retrieval-augmentation significantly reduces factual hallucination rates compared to purely parametric LLM generation.",
+        "Citation validation mechanisms identify source mismatches and enforce strict evidence attribution.",
+        "Post-generation verification filters ungrounded model statements before presenting answers to researchers."
+      ],
+      "labeled_contradiction_pairs": [],
+      "expected_answer_faithfulness_min": 0.90
+    },
+    {
+      "id": "eval_dense_retrieval_latency",
+      "question": "What are the computational costs and latency trade-offs of knowledge graph traversal compared to vector search?",
+      "expected_document_titles": [
+        "GraphRAG: Unlocking LLM Discovery on Complex Information Networks",
+        "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+      ],
+      "expected_keywords": ["latency", "index construction", "computational cost", "token consumption", "vector search"],
+      "labeled_claims": [
+        "Graph index construction incurs higher upfront token costs and processing time due to LLM-driven entity extraction.",
+        "Vector search provides millisecond-level approximate nearest neighbor lookup with minimal graph overhead.",
+        "Graph traversal requires multi-hop path exploration that can increase query latency if not pruned."
+      ],
+      "labeled_contradiction_pairs": [
+        ["knowledge graph indexing requires minimal computational investment", "graph index construction incurs significant upfront token consumption"]
+      ],
+      "expected_answer_faithfulness_min": 0.80
+    },
+    {
+      "id": "eval_bm25_vs_dense",
+      "question": "Does dense vector retrieval universally outperform sparse lexical search across all research domains?",
+      "expected_document_titles": ["Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"],
+      "expected_keywords": ["BM25", "dense retrieval", "outperform", "out-of-domain", "hybrid"],
+      "labeled_claims": [
+        "Dense retrieval achieves superior semantic generalization on in-domain academic queries.",
+        "Sparse lexical retrieval (BM25) remains highly competitive or superior when searching exact technical identifiers, jargon, or out-of-distribution codes.",
+        "Hybrid retrieval combining dense semantic embeddings with BM25 lexical ranking achieves the most robust overall recall."
+      ],
+      "labeled_contradiction_pairs": [
+        ["dense retrieval universally supersedes sparse keyword search", "BM25 outperforms dense vectors on rare technical identifiers and out-of-domain queries"]
+      ],
+      "expected_answer_faithfulness_min": 0.85
+    },
+    {
+      "id": "eval_unsupported_refusal",
+      "question": "What are the quantum cryptographic key distribution benchmarks for superconducting qubits in the corpus?",
+      "expected_document_titles": [],
+      "expected_keywords": ["quantum", "cryptography", "superconducting qubits"],
+      "labeled_claims": [],
+      "labeled_contradiction_pairs": [],
+      "expected_refusal": true,
+      "expected_answer_faithfulness_min": 1.0
+    },
+    {
+      "id": "eval_citation_traceability",
+      "question": "How does source provenance tracking ensure verifiability in scientific literature synthesis?",
+      "expected_document_titles": [
+        "Hallucination Mitigation in Large Language Models: A Comprehensive Survey",
+        "GraphRAG: Unlocking LLM Discovery on Complex Information Networks"
+      ],
+      "expected_keywords": ["provenance", "verifiability", "traceable citations", "character offsets", "page numbers"],
+      "labeled_claims": [
+        "Preserving page numbers and exact character offsets allows researchers to verify claims directly against primary source text.",
+        "Traceable citations prevent hallucinated attribution by binding every claim to a specific passage identifier."
+      ],
+      "labeled_contradiction_pairs": [],
+      "expected_answer_faithfulness_min": 0.90
+    }
+  ]
+}

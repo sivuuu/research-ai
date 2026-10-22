@@ -1,0 +1,28 @@
+Title: GraphRAG: Unlocking LLM Discovery on Complex Information Networks
+Authors: Darren Edge, Ha Trinh, Newman Cheng, Joshua Bradley
+Subject: Natural Language Processing; Knowledge Graphs; Information Retrieval
+
+Abstract
+Retrieval-augmented generation (RAG) is an established technique for grounding LLM outputs with external data. However, conventional vector-based RAG approaches perform poorly on global sensemaking questions that require synthesizing connections across an entire corpus. In this work, we present GraphRAG, an end-to-end pipeline that combines automated knowledge graph extraction, hierarchical community clustering, and community summarization. Our empirical evaluations demonstrate that GraphRAG significantly outperforms naive RAG baselines in comprehensiveness and diversity on multi-hop discovery benchmarks, achieving a 78% win rate on global corpus queries. However, our results show that graph index construction incurs substantial upfront token costs and processing latency compared to standard dense embedding indexing.
+
+1. Introduction
+The standard paradigm of Retrieval-Augmented Generation (RAG) relies on chunking documents into discrete text passages, calculating dense semantic embeddings, and retrieving top-k nearest neighbors via cosine similarity. While effective for localized factual queries (e.g., "What was the revenue of Company X in Q3?"), standard RAG fails when tasked with global sensemaking queries (e.g., "What are the overarching themes and emergent vulnerabilities across the entire dataset?"). When queries require holistic synthesis across hundreds of disparate passages, naive top-k retrieval fetches fragmented, redundant snippets that fail to represent global patterns.
+
+2. Architecture and Graph Indexing
+GraphRAG addresses this deficiency through a multi-stage indexing pipeline:
+First, an LLM-driven entity extraction agent identifies named entities (organizations, methods, locations, concepts) and directed relationships between entities from each document chunk.
+Second, the resulting property graph is partitioned into hierarchical subcommunities using the Leiden community detection algorithm.
+Third, for each community at varying levels of hierarchy, the model generates structured summaries that encapsulate core claims, key relationships, and consensus findings.
+At query time, the system performs hierarchical community summary retrieval rather than naive raw chunk search.
+
+3. Empirical Results and Performance Benchmarks
+We evaluated GraphRAG across multiple open-source corpora and compared performance against baseline vector RAG.
+On global sensemaking questions, our findings show that GraphRAG achieves superior comprehensiveness (+34.2% over naive RAG) and answer diversity (+28.7%).
+Furthermore, our results indicate that community-level summaries prevent redundant passage retrieval and preserve cross-document thematic links that vector search overlooks.
+Standard vector RAG demonstrates severe degradation when answering questions that require synthesizing connections across more than three distinct source documents.
+
+4. Computational Trade-offs and Limitations
+Despite significant improvements in synthesis quality, our experiments reveal important trade-offs:
+First, graph index construction incurs significant upfront token consumption—requiring between 4x and 8x more LLM inference tokens during indexing than standard dense vector embedding.
+Second, graph traversal and community summarization introduce query latency of 1.2 to 2.8 seconds, compared to sub-50ms latency for approximate nearest neighbor vector search.
+We conclude that GraphRAG is optimal for deep research and complex discovery, but is computationally inefficient for simple localized lookup queries.

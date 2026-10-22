@@ -1,0 +1,24 @@
+Title: Hallucination Mitigation in Large Language Models: A Comprehensive Survey
+Authors: Lei Huang, Weijiang Yu, Weitao Ma, Weihang Su
+Subject: Artificial Intelligence; Computational Linguistics; Fact Verification
+
+Abstract
+Hallucination in Large Language Models (LLMs) represents the primary barrier preventing reliable deployment in scientific research and enterprise decision intelligence. In this survey, we provide a rigorous taxonomy of factual hallucinations, categorize mitigation strategies into pre-retrieval, retrieval-augmented, and post-generation verification, and analyze empirical verification metrics. We find that external retrieval-augmentation significantly reduces factual hallucination rates compared to purely parametric LLM generation. Furthermore, our findings indicate that preserving source provenance—including exact character offsets and page numbers—is essential for traceable verification. We also identify a critical failure mode: LLMs frequently generate fabricated citations when external retrieval is absent or unconstrained.
+
+1. Taxonomy of Scientific Hallucinations
+We categorize factual hallucinations in scientific analysis into two distinct classes:
+First, Fact-Conflicting Hallucinations, where the generated text directly contradicts established empirical findings or axioms established in ground-truth literature.
+Second, Source-Inconsistent Hallucinations, where the model generates statements that are not supported by the retrieved source context, or attributes claims to authors and page numbers that contain no such passage.
+
+2. Evidence Grounding and Provenance Tracking
+Our experiments demonstrate that external retrieval-augmentation significantly reduces factual hallucination rates compared to purely parametric generation, cutting unverifiable assertions by over 60%.
+However, simply providing context is insufficient to guarantee truthfulness.
+We show that preserving page numbers and exact character offsets allows researchers to verify claims directly against primary source text.
+Traceable citations prevent hallucinated attribution by binding every claim to a specific passage identifier.
+When citation validation mechanisms audit outputs post-generation, factual precision increases to 96.4%, filtering out unsupported extrapolation.
+
+3. Contradiction Detection and Conflicting Sources
+When different research papers present conflicting conclusions on the same hypothesis, standard summarizers collapse the dispute into false consensus.
+We demonstrate that contradiction-detection systems must analyze directional stance, empirical conditions, and polarity rather than relying solely on semantic vector similarity.
+Semantic vector similarity between opposing claims is often high (>0.85) due to identical subject matter, even when the empirical findings directly contradict each other.
+Therefore, stance-aware claim comparison is required to expose disagreements and flag them for human researcher review.
